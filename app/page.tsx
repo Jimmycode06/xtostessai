@@ -7,7 +7,7 @@ const reviews = [
   {
     name: "Jack",
     username: "@jack",
-    body: "I'have never seen anything like this before. It's amazing. I love it.",
+    body: "I've never seen anything like this before. It's amazing. I love it.",
     img: "https://avatar.vercel.sh/jack",
   },
   {
@@ -61,21 +61,13 @@ const ReviewCard = ({
   return (
     <figure
       className={cn(
-        "relative w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
+        "relative w-48 cursor-pointer overflow-hidden rounded-xl border p-4", // Réduit la largeur de la carte
         "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
         "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]"
       )}
     >
       <div className="flex flex-row items-center gap-2">
-        {/* Utilisation de next/image pour l'image de profil */}
-        <Image
-          className="rounded-full"
-          src={img}
-          alt=""
-          width={32}
-          height={32}
-          priority // Optionnel, pour un chargement anticipé si nécessaire
-        />
+        <img className="rounded-full" width="32" height="32" alt="" src={img} />
         <div className="flex flex-col">
           <figcaption className="text-sm font-medium dark:text-white">
             {name}
@@ -91,19 +83,25 @@ const ReviewCard = ({
 // Composant MarqueeDemo pour le défilement horizontal
 const MarqueeDemo = () => {
   return (
-    <div className="relative flex h-[500px] w-full items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
-      {/* Marquee pour le premier groupe d'avis */}
-      <Marquee pauseOnHover className="[--duration:20s]">
-        {firstRow.map((review) => (
-          <ReviewCard key={review.username} {...review} />
-        ))}
-      </Marquee>
-      {/* Marquee pour le second groupe d'avis (inverse) */}
-      <Marquee reverse pauseOnHover className="[--duration:20s]">
-        {secondRow.map((review) => (
-          <ReviewCard key={review.username} {...review} />
-        ))}
-      </Marquee>
+    <div className="relative flex flex-col items-center justify-center w-full max-w-4xl mx-auto overflow-hidden rounded-lg border bg-background md:shadow-xl">
+      {/* Première ligne de défilement */}
+      <div className="w-full mb-4">
+        <Marquee pauseOnHover className="[--duration:20s]">
+          {firstRow.map((review) => (
+            <ReviewCard key={review.username} {...review} />
+          ))}
+        </Marquee>
+      </div>
+
+      {/* Deuxième ligne de défilement (inverse) */}
+      <div className="w-full">
+        <Marquee reverse pauseOnHover className="[--duration:20s]">
+          {secondRow.map((review) => (
+            <ReviewCard key={review.username} {...review} />
+          ))}
+        </Marquee>
+      </div>
+
       {/* Masque les bords pour un effet de dégradé */}
       <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
       <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
