@@ -1,62 +1,41 @@
 import { cn } from "@/lib/utils";
 import Marquee from "@/components/ui/marquee";
-import Image from "next/image";
 
-// Les avis des utilisateurs
-const reviews = [
+// Les vidéos à afficher avec leurs résumés
+const videos = [
   {
-    name: "Alice",
-    username: "@alice",
-    body: "Xtos m&apos;Aide à comprendre des vidéos complexes en un instant. C&apos;est révolutionnaire !",
-    img: "https://avatar.vercel.sh/alice",
+    title: "Introduction à la blockchain",
+    description:
+      "Découvrez les bases de la blockchain, comment elle fonctionne et pourquoi elle est si importante.",
+    url: "https://www.youtube.com/embed/dQw4w9WgXcQ", // Remplacer par l'URL de ta vidéo YouTube
   },
   {
-    name: "Bob",
-    username: "@bob",
-    body: "Enfin un outil qui simplifie vraiment ma vie. Merci Xtos !",
-    img: "https://avatar.vercel.sh/bob",
+    title: "Les contrats intelligents expliqués",
+    description:
+      "Comprenez ce que sont les contrats intelligents et comment ils révolutionnent l'industrie.",
+    url: "https://www.youtube.com/embed/MiXnzyjwqO8", // Remplacer par l'URL de ta vidéo YouTube
   },
   {
-    name: "Charlie",
-    username: "@charlie",
-    body: "Avec Xtos, je gagne un temps fou en regardant des résumés précis de vidéos longues.",
-    img: "https://avatar.vercel.sh/charlie",
-  },
-  {
-    name: "Diane",
-    username: "@diane",
-    body: "Une innovation impressionnante. Les résumés sont toujours pertinents !",
-    img: "https://avatar.vercel.sh/diane",
-  },
-  {
-    name: "Eve",
-    username: "@eve",
-    body: "Je ne sais pas comment je faisais avant Xtos. C&apos;est incroyable !",
-    img: "https://avatar.vercel.sh/eve",
-  },
-  {
-    name: "Frank",
-    username: "@frank",
-    body: "Les résumés de vidéos me permettent d&apos;apprendre plus vite que jamais.",
-    img: "https://avatar.vercel.sh/frank",
+    title: "La finance décentralisée (DeFi)",
+    description:
+      "Plongez dans l'univers de la DeFi et découvrez comment elle transforme la finance traditionnelle.",
+    url: "https://www.youtube.com/embed/9bZkp7q19f0", // Remplacer par l'URL de ta vidéo YouTube
   },
 ];
 
-// Diviser les avis en 2 lignes
-const firstRow = reviews.slice(0, reviews.length / 2);
-const secondRow = reviews.slice(reviews.length / 2);
+// Diviser les vidéos en 2 lignes pour un effet de défilement
+const firstRow = videos.slice(0, videos.length / 2);
+const secondRow = videos.slice(videos.length / 2);
 
-// Composant ReviewCard pour chaque avis utilisateur
-const ReviewCard = ({
-  img,
-  name,
-  username,
-  body,
+// Composant VideoCard pour chaque vidéo
+const VideoCard = ({
+  title,
+  description,
+  url,
 }: {
-  img: string;
-  name: string;
-  username: string;
-  body: string;
+  title: string;
+  description: string;
+  url: string;
 }) => {
   return (
     <figure
@@ -66,35 +45,33 @@ const ReviewCard = ({
         "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]"
       )}
     >
-      <div className="flex flex-row items-center gap-2">
-        <Image
-          className="rounded-full"
-          width={32}
-          height={32}
-          alt=""
-          src={img}
-        />
-        <div className="flex flex-col">
-          <figcaption className="text-sm font-medium dark:text-white">
-            {name}
-          </figcaption>
-          <p className="text-xs font-medium dark:text-white/40">{username}</p>
-        </div>
+      <div className="flex flex-col gap-2">
+        {/* Utilisation de l'iframe pour intégrer la vidéo YouTube */}
+        <iframe
+          className="w-full h-32 rounded-lg"
+          src={url}
+          title={title}
+          frameBorder="0"
+          allowFullScreen
+        ></iframe>
+        <figcaption className="text-sm font-medium dark:text-white">
+          {title}
+        </figcaption>
+        <p className="text-xs font-medium dark:text-white/40">{description}</p>
       </div>
-      <blockquote className="mt-2 text-sm">{body}</blockquote>
     </figure>
   );
 };
 
-// Composant MarqueeDemo pour le défilement horizontal
+// Composant MarqueeDemo pour le défilement horizontal des vidéos
 const MarqueeDemo = () => {
   return (
     <div className="relative flex flex-col items-center justify-center w-full max-w-4xl mx-auto overflow-hidden rounded-lg border bg-background md:shadow-xl">
       {/* Première ligne de défilement */}
       <div className="w-full mb-4">
         <Marquee pauseOnHover className="[--duration:20s]">
-          {firstRow.map((review) => (
-            <ReviewCard key={review.username} {...review} />
+          {firstRow.map((video) => (
+            <VideoCard key={video.title} {...video} />
           ))}
         </Marquee>
       </div>
@@ -102,8 +79,8 @@ const MarqueeDemo = () => {
       {/* Deuxième ligne de défilement (inverse) */}
       <div className="w-full">
         <Marquee reverse pauseOnHover className="[--duration:20s]">
-          {secondRow.map((review) => (
-            <ReviewCard key={review.username} {...review} />
+          {secondRow.map((video) => (
+            <VideoCard key={video.title} {...video} />
           ))}
         </Marquee>
       </div>
@@ -120,62 +97,81 @@ export default function Home() {
   return (
     <div className="grid grid-rows-[1fr_1fr] items-center justify-items-center min-h-screen p-8 pb-8 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-white">
       <main className="flex flex-col gap-8 row-start-1 items-center sm:items-start w-full">
-        {/* Titre du site */}
+        {/* Titre du site xtos */}
         <h1 className="text-4xl font-bold text-center text-blue-600 mb-8">
-          Xtos
+          xtos.xyz
         </h1>
         <p className="text-center text-lg text-gray-600 mb-8">
-          Le SaaS qui transforme les vidéos YouTube en résumés clairs et
-          rapides.
+          Découvrez les dernières vidéos sur la blockchain, DeFi et plus encore,
+          résumées pour vous.
         </p>
 
-        {/* Explication des fonctionnalités */}
+        {/* Conteneur pour les blocs d'information */}
         <div className="flex gap-8 justify-center flex-wrap">
-          {/* Bloc Fonctionnalité 1 */}
+          {/* Bloc Vidéo 1 */}
           <div className="bg-white shadow-lg rounded-lg p-6 w-full sm:w-[300px] border border-gray-300">
             <h2 className="text-xl font-semibold mb-4 text-gray-800">
-              Résumé instantané
+              Blockchain Basics
             </h2>
             <p className="text-gray-600 mb-4">
-              Obtenez un résumé détaillé de n&apos;importe quelle vidéo en
-              quelques secondes.
+              Une introduction complète à la blockchain et à ses concepts
+              fondamentaux.
             </p>
+            <a
+              href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+              className="text-blue-500 hover:underline"
+            >
+              Voir la vidéo
+            </a>
           </div>
 
-          {/* Bloc Fonctionnalité 2 */}
+          {/* Bloc Vidéo 2 */}
           <div className="bg-white shadow-lg rounded-lg p-6 w-full sm:w-[300px] border border-gray-300">
             <h2 className="text-xl font-semibold mb-4 text-gray-800">
-              Gain de temps
+              Smart Contracts Explained
             </h2>
             <p className="text-gray-600 mb-4">
-              Ne perdez plus de temps à regarder des vidéos longues. Xtos
-              extrait l&apos;essentiel.
+              Apprenez ce que sont les contrats intelligents et comment ils
+              fonctionnent.
             </p>
+            <a
+              href="https://www.youtube.com/watch?v=MiXnzyjwqO8"
+              className="text-blue-500 hover:underline"
+            >
+              Voir la vidéo
+            </a>
           </div>
 
-          {/* Bloc Fonctionnalité 3 */}
+          {/* Bloc Vidéo 3 */}
           <div className="bg-white shadow-lg rounded-lg p-6 w-full sm:w-[300px] border border-gray-300">
             <h2 className="text-xl font-semibold mb-4 text-gray-800">
-              Simple d&apos;utilisation
+              Introduction to DeFi
             </h2>
             <p className="text-gray-600 mb-4">
-              Collez simplement un lien YouTube et laissez Xtos faire le reste.
+              Une plongée dans la finance décentralisée et ses applications dans
+              la crypto.
             </p>
+            <a
+              href="https://www.youtube.com/watch?v=9bZkp7q19f0"
+              className="text-blue-500 hover:underline"
+            >
+              Voir la vidéo
+            </a>
           </div>
         </div>
 
-        {/* Marquee des avis */}
+        {/* Marquee des vidéos */}
         <div className="mt-16 w-full">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
-            Ce que disent nos utilisateurs
+            Nos vidéos à découvrir
           </h2>
           <MarqueeDemo />
         </div>
       </main>
 
-      {/* Ajout du texte "Xtos - All rights reserved" */}
+      {/* Ajout du texte "xtos - All rights reserved" */}
       <div className="mt-auto text-center text-sm text-black">
-        <p>© 2024 Xtos - Tous droits réservés</p>
+        <p>© 2024 xtos.xyz - All Rights Reserved</p>
       </div>
     </div>
   );
